@@ -1,0 +1,12 @@
+{
+  "name": "wilford-site",
+  "version": "1.0.0",
+  "description": "WILFORD. - Canadian Producer/Musician website",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve ."
+  },
+  "dependencies": {
+    "@vercel/edge": "^0.0.5"
+  }
+}

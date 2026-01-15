@@ -1,0 +1,233 @@
+/* Visual Effects - Scanlines, CRT, Glitch */
+
+/* Scanline overlay */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: scanlineFlicker 0.1s infinite;
+}
+
+@keyframes scanlineFlicker {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.85; }
+}
+
+/* CRT screen curve effect (subtle) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 70%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+/* Screen flicker effect */
+@keyframes screenFlicker {
+  0%, 100% { opacity: 1; }
+  97% { opacity: 1; }
+  98% { opacity: 0.95; }
+  99% { opacity: 1; }
+}
+
+.screen {
+  animation: screenFlicker 4s infinite;
+}
+
+/* Glitch effect for secret screen */
+.glitch-container {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 #00fff5;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 #e94560;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim-2 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip: rect(36px, 9999px, 9px, 0); }
+  10% { clip: rect(25px, 9999px, 99px, 0); }
+  20% { clip: rect(62px, 9999px, 33px, 0); }
+  30% { clip: rect(23px, 9999px, 74px, 0); }
+  40% { clip: rect(44px, 9999px, 63px, 0); }
+  50% { clip: rect(12px, 9999px, 82px, 0); }
+  60% { clip: rect(67px, 9999px, 29px, 0); }
+  70% { clip: rect(91px, 9999px, 54px, 0); }
+  80% { clip: rect(5px, 9999px, 47px, 0); }
+  90% { clip: rect(78px, 9999px, 16px, 0); }
+  100% { clip: rect(33px, 9999px, 88px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(78px, 9999px, 23px, 0); }
+  10% { clip: rect(11px, 9999px, 67px, 0); }
+  20% { clip: rect(45px, 9999px, 91px, 0); }
+  30% { clip: rect(89px, 9999px, 12px, 0); }
+  40% { clip: rect(34px, 9999px, 56px, 0); }
+  50% { clip: rect(72px, 9999px, 38px, 0); }
+  60% { clip: rect(19px, 9999px, 84px, 0); }
+  70% { clip: rect(58px, 9999px, 7px, 0); }
+  80% { clip: rect(93px, 9999px, 42px, 0); }
+  90% { clip: rect(26px, 9999px, 69px, 0); }
+  100% { clip: rect(51px, 9999px, 95px, 0); }
+}
+
+/* Pixel transition effect */
+.pixel-transition {
+  animation: pixelate 0.3s steps(10) forwards;
+}
+
+@keyframes pixelate {
+  0% { filter: blur(0); }
+  50% { filter: blur(4px); }
+  100% { filter: blur(0); }
+}
+
+/* Menu item hover glow */
+.menu-item:hover .menu-text {
+  text-shadow: 0 0 8px var(--accent-secondary);
+}
+
+/* Button press effect */
+.jrpg-button:active {
+  filter: brightness(0.8);
+}
+
+/* Screen transition */
+.screen-enter {
+  animation: screenEnter 0.3s ease-out forwards;
+}
+
+.screen-exit {
+  animation: screenExit 0.2s ease-in forwards;
+}
+
+@keyframes screenEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes screenExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+/* Typewriter cursor for dialogue */
+.typewriter-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--text-primary);
+  animation: cursorBlink 0.7s steps(2) infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Starfield background (optional - can be toggled) */
+.starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background:
+    radial-gradient(1px 1px at 20px 30px, white, transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 90px 40px, white, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 160px 120px, white, transparent),
+    radial-gradient(1px 1px at 200px 150px, rgba(255,255,255,0.5), transparent);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: starfieldMove 60s linear infinite;
+}
+
+@keyframes starfieldMove {
+  from { background-position: 0 0; }
+  to { background-position: 200px 200px; }
+}
+
+/* Selection sound visual feedback */
+.selection-flash {
+  animation: selectionFlash 0.1s ease-out;
+}
+
+@keyframes selectionFlash {
+  0% { background: rgba(255, 255, 255, 0.3); }
+  100% { background: transparent; }
+}
+
+/* Loading dots animation */
+.loading-dots::after {
+  content: '';
+  animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  66% { content: '...'; }
+}
+
+/* PC98 dithering pattern (for backgrounds) */
+.dither-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='2' height='2' fill='%23ffffff' fill-opacity='0.05'/%3E%3Crect x='2' y='2' width='2' height='2' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+}
