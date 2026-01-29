@@ -93,11 +93,11 @@ body.chaos-enabled [onclick] {
   border: 1px solid #002200;
 }
 
-/* ===== 88x31 BADGES - Top right (below toggle) ===== */
+/* ===== 88x31 BADGES - Left side below hit counter ===== */
 .badges-container {
   position: fixed;
-  top: 32px;
-  right: 10px;
+  top: 70px;
+  left: 10px;
   display: flex;
   flex-direction: row;
   gap: 4px;
@@ -117,7 +117,7 @@ img.retro-badge {
 .chaos-toggle {
   position: fixed;
   top: 32px;
-  right: 290px; /* To the left of badges */
+  right: 10px;
   z-index: 10000;
   background: transparent;
   border: 1px solid #3a3a5a;
@@ -249,6 +249,7 @@ img.retro-badge {
   .chaos-toggle {
     top: 28px;
     right: 10px;
+    font-size: 9px;
   }
 }
 
