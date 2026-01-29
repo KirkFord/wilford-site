@@ -132,13 +132,16 @@ body::before {
   filter: brightness(0.8);
 }
 
-/* Screen transition */
+/* ===== SCREEN TRANSITIONS ===== */
+/* Multiple transition styles - randomly applied */
+
+/* Default fade + scale */
 .screen-enter {
-  animation: screenEnter 0.3s ease-out forwards;
+  animation: screenEnter 0.4s ease-out forwards;
 }
 
 .screen-exit {
-  animation: screenExit 0.2s ease-in forwards;
+  animation: screenExit 0.3s ease-in forwards;
 }
 
 @keyframes screenEnter {
@@ -160,6 +163,217 @@ body::before {
   100% {
     opacity: 0;
     transform: scale(1.05);
+  }
+}
+
+/* Slide from right */
+.screen-enter.slide-right {
+  animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.screen-exit.slide-right {
+  animation: slideOutLeft 0.4s ease-in forwards;
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+}
+
+/* Dissolve/pixelate effect */
+.screen-enter.dissolve {
+  animation: dissolveIn 0.6s steps(8) forwards;
+}
+
+.screen-exit.dissolve {
+  animation: dissolveOut 0.4s steps(8) forwards;
+}
+
+@keyframes dissolveIn {
+  0% {
+    opacity: 0;
+    filter: blur(8px) brightness(2);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(4px) brightness(1.5);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes dissolveOut {
+  0% {
+    opacity: 1;
+    filter: blur(0) brightness(1);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(4px) brightness(1.5);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(8px) brightness(2);
+  }
+}
+
+/* Wipe from left (like VN scene change) */
+.screen-enter.wipe {
+  animation: wipeIn 0.5s ease-out forwards;
+  clip-path: inset(0 100% 0 0);
+}
+
+.screen-exit.wipe {
+  animation: wipeOut 0.4s ease-in forwards;
+}
+
+@keyframes wipeIn {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes wipeOut {
+  0% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0 0 100%);
+    opacity: 1;
+  }
+}
+
+/* Flash white (RPG battle transition) */
+.screen-enter.flash {
+  animation: flashIn 0.5s ease-out forwards;
+}
+
+.screen-exit.flash {
+  animation: flashOut 0.3s ease-in forwards;
+}
+
+@keyframes flashIn {
+  0% {
+    opacity: 0;
+    filter: brightness(3);
+  }
+  30% {
+    opacity: 1;
+    filter: brightness(3);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+@keyframes flashOut {
+  0% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  70% {
+    opacity: 1;
+    filter: brightness(3);
+  }
+  100% {
+    opacity: 0;
+    filter: brightness(3);
+  }
+}
+
+/* Zoom in (dramatic) */
+.screen-enter.zoom {
+  animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.screen-exit.zoom {
+  animation: zoomOut 0.3s ease-in forwards;
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+/* CRT turn off effect */
+.screen-exit.crt-off {
+  animation: crtOff 0.4s ease-in forwards;
+}
+
+@keyframes crtOff {
+  0% {
+    opacity: 1;
+    transform: scale(1, 1);
+    filter: brightness(1);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1, 0.005);
+    filter: brightness(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0, 0);
+    filter: brightness(3);
+  }
+}
+
+/* Scanline reveal */
+.screen-enter.scanline-reveal {
+  animation: scanlineReveal 0.6s steps(20) forwards;
+}
+
+@keyframes scanlineReveal {
+  0% {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
+  }
+  100% {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 

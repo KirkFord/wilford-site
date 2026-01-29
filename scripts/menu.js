@@ -11,6 +11,73 @@
   let introComplete = false;
   const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
 
+  // Transition effects to randomly choose from
+  const transitionEffects = ['', 'slide-right', 'dissolve', 'wipe', 'flash', 'zoom'];
+
+  // PC-98 background images organized by mood/screen
+  const pc98Backgrounds = {
+    'title-screen': [
+      'Sci-Fi/Cosmic Psycho 177.png',
+      'Sci-Fi/Armist 68.png',
+      'Sci-Fi/Vanishing Point 099.png',
+      'Sci-Fi/Red 127.png',
+      'Fantasy/Dual Soul 067.png',
+      'Fantasy/Waver 124.png',
+      'Monochromatic/Angel Halo 165.png'
+    ],
+    'main-menu': [
+      'Contemporary Interiors/Ambivalenz 147.png',
+      'Contemporary Interiors/Akiko Gold 123.png',
+      'Contemporary Interiors/Yu-No 400.png',
+      'Contemporary Interiors/Ripple Cafe 53.png',
+      'Contemporary Interiors/Love Escalator 337.png',
+      'Contemporary Interiors/Kakyuusei 517.png',
+      'Contemporary Interiors/File-0 53.png'
+    ],
+    'discography-screen': [
+      'Contemporary Interiors/Akiko Gold 123.png',
+      'Contemporary Interiors/Koukou Kyoshi 143.png',
+      'Contemporary Interiors/Kara no Naka no Kotori 64.png',
+      'Sci-Fi/Armist 51.png',
+      'Fantasy/Only You 203.png'
+    ],
+    'bio-screen': [
+      'Japanese Traditional/Beast 002.png',
+      'Fantasy/True Heart 090.png',
+      'Fantasy/Dual Soul 063.png',
+      'Fantasy/Dora Dora Emotion 146.png',
+      'Fantasy/Rance 4 131.png'
+    ],
+    'listen-screen': [
+      'Sci-Fi/Cosmic Psycho 177.png',
+      'Sci-Fi/Reira Slave Doll 092.png',
+      'Sci-Fi/Reira Slave Doll 111.png',
+      'Sci-Fi/Diver\'s 006.png',
+      'Monochromatic/Angel Halo 165.png'
+    ],
+    'links-screen': [
+      'Fantasy/Angel Night 216.png',
+      'Fantasy/Super D.P.S 29.png',
+      'Fantasy/Waver 124.png',
+      'Monochromatic/Birthday 125.png',
+      'Contemporary Interiors/Yu-No 400.png'
+    ],
+    'contact-screen': [
+      'Contemporary Exteriors (Night)/Anniversary 126.png',
+      'Contemporary Exteriors (Night)/Ayayo 015.png',
+      'Contemporary Exteriors (Night)/Bishoujo Audition 025.png',
+      'Contemporary Interiors/Ambivalenz 147.png',
+      'Sci-Fi/Vanishing Point 099.png'
+    ],
+    'secrets-screen': [
+      'Monochromatic/Angel Halo 165.png',
+      'Monochromatic/Birthday 125.png',
+      'Sci-Fi/Red 127.png',
+      'Fantasy/Dual Soul 067.png',
+      'Sci-Fi/Reira Slave Doll 094.png'
+    ]
+  };
+
   // Initialize on DOM load
   document.addEventListener('DOMContentLoaded', init);
 
@@ -200,25 +267,89 @@
     });
   }
 
-  // Screen Transitions
+  // Screen Transitions with random effects
   function transitionToScreen(screenId) {
     const currentScreenEl = document.getElementById(currentScreen);
     const nextScreenEl = document.getElementById(screenId);
 
     if (!nextScreenEl) return;
 
+    // Pick a random transition effect
+    const effect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
+
+    // Update background image for the next screen
+    updateScreenBackground(screenId, nextScreenEl);
+
     // Exit animation
     currentScreenEl.classList.add('screen-exit');
+    if (effect) currentScreenEl.classList.add(effect);
 
     setTimeout(() => {
-      currentScreenEl.classList.remove('active', 'screen-exit');
+      currentScreenEl.classList.remove('active', 'screen-exit', ...transitionEffects);
       nextScreenEl.classList.add('active', 'screen-enter');
+      if (effect) nextScreenEl.classList.add(effect);
       currentScreen = screenId;
 
       setTimeout(() => {
-        nextScreenEl.classList.remove('screen-enter');
-      }, 300);
-    }, 200);
+        nextScreenEl.classList.remove('screen-enter', ...transitionEffects);
+      }, 500);
+    }, 300);
+  }
+
+  // Update screen background with random PC-98 image
+  function updateScreenBackground(screenId, screenEl) {
+    const backgrounds = pc98Backgrounds[screenId];
+    if (!backgrounds || backgrounds.length === 0) return;
+
+    // Pick a random background
+    const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    const bgUrl = `/assets/pc98/${randomBg}`;
+
+    // Get the current background style and replace just the image URL
+    const currentStyle = window.getComputedStyle(screenEl).backgroundImage;
+
+    // Apply new background while preserving gradients
+    if (screenId === 'title-screen') {
+      screenEl.style.backgroundImage = `
+        linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.5) 100%),
+        url('${bgUrl}')
+      `;
+    } else if (screenId === 'main-menu') {
+      screenEl.style.backgroundImage = `
+        linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, transparent 50%),
+        url('${bgUrl}')
+      `;
+    } else if (screenId === 'bio-screen') {
+      screenEl.style.backgroundImage = `
+        linear-gradient(to bottom, transparent 0%, transparent 60%, rgba(0,0,0,0.7) 100%),
+        url('${bgUrl}')
+      `;
+    } else if (screenId === 'discography-screen') {
+      screenEl.style.backgroundImage = `
+        linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(0,0,0,0.8) 100%),
+        url('${bgUrl}')
+      `;
+    } else if (screenId === 'listen-screen') {
+      screenEl.style.backgroundImage = `
+        radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%),
+        url('${bgUrl}')
+      `;
+    } else if (screenId === 'links-screen') {
+      screenEl.style.backgroundImage = `
+        linear-gradient(90deg, transparent 0%, transparent 60%, rgba(0,0,0,0.7) 100%),
+        url('${bgUrl}')
+      `;
+    } else if (screenId === 'contact-screen') {
+      screenEl.style.backgroundImage = `
+        linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(0,0,0,0.8) 100%),
+        url('${bgUrl}')
+      `;
+    } else if (screenId === 'secrets-screen') {
+      screenEl.style.backgroundImage = `
+        radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%),
+        url('${bgUrl}')
+      `;
+    }
   }
 
   // Konami Code
