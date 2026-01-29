@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="styles/jrpg.css">
   <link rel="stylesheet" href="styles/effects.css">
   <link rel="stylesheet" href="styles/chaos.css">
+  <link rel="stylesheet" href="styles/music-player.css">
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -157,36 +158,103 @@
     </div>
   </div>
 
-  <!-- Listen Screen - Grid overlay style -->
+  <!-- Listen Screen - PC-98 Terminal Music Player -->
   <div id="listen-screen" class="screen sub-screen">
     <div class="vn-center-layout">
-      <div class="center-panel listen-panel">
-        <div class="panel-title">LISTEN</div>
-        <div class="soundcloud-embed">
-          <iframe
-            width="100%"
-            height="166"
-            scrolling="no"
-            frameborder="no"
-            allow="autoplay"
-            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/user-350392755&color=%23dd4455&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false">
-          </iframe>
+      <div class="terminal-player">
+        <!-- Terminal Header -->
+        <div class="terminal-header">
+          <span class="terminal-title">WILFORD.EXE</span>
+          <span class="terminal-version">v1.0</span>
         </div>
-        <div class="platform-grid">
-          <a href="https://open.spotify.com/artist/4JPbRtUEIQKbsRLu72EZWp" target="_blank" class="platform-button">
-            <span class="platform-name">Spotify</span>
-          </a>
-          <a href="https://music.apple.com/us/artist/wilford/1475058523" target="_blank" class="platform-button">
-            <span class="platform-name">Apple Music</span>
-          </a>
-          <a href="https://wilfordthewanderer.bandcamp.com/" target="_blank" class="platform-button">
-            <span class="platform-name">Bandcamp</span>
-          </a>
-          <a href="https://soundcloud.com/user-350392755" target="_blank" class="platform-button">
-            <span class="platform-name">SoundCloud</span>
-          </a>
+
+        <!-- Main Display Area -->
+        <div class="terminal-display">
+          <!-- Album Art Section -->
+          <div class="player-art-section">
+            <div class="album-art-container">
+              <img id="album-art" src="/assets/album-art/default.svg" alt="Album Art" class="album-art">
+              <div class="art-scanlines"></div>
+            </div>
+          </div>
+
+          <!-- Track Info & Visualizer -->
+          <div class="player-info-section">
+            <div class="track-info">
+              <div class="now-playing-label">> NOW PLAYING:</div>
+              <div id="track-title" class="track-title">---</div>
+              <div id="track-artist" class="track-artist">---</div>
+              <div id="track-album" class="track-album">---</div>
+            </div>
+
+            <!-- Audio Visualizer -->
+            <div class="visualizer-container">
+              <canvas id="visualizer-canvas" class="visualizer-canvas"></canvas>
+            </div>
+          </div>
         </div>
-        <button class="back-button" data-back="main-menu">[ESC] Back</button>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+          <span id="current-time" class="time-display">00:00</span>
+          <div class="progress-bar-container" id="progress-container">
+            <div class="progress-bar-bg"></div>
+            <div id="progress-bar" class="progress-bar"></div>
+            <div id="progress-handle" class="progress-handle"></div>
+          </div>
+          <span id="duration-time" class="time-display">00:00</span>
+        </div>
+
+        <!-- Playback Controls -->
+        <div class="controls-section">
+          <button id="shuffle-btn" class="control-btn" title="Shuffle">
+            <span class="control-icon">RND</span>
+          </button>
+          <button id="prev-btn" class="control-btn" title="Previous">
+            <span class="control-icon">|&lt;&lt;</span>
+          </button>
+          <button id="play-btn" class="control-btn control-btn-primary" title="Play/Pause">
+            <span id="play-icon" class="control-icon">[&gt;]</span>
+          </button>
+          <button id="next-btn" class="control-btn" title="Next">
+            <span class="control-icon">&gt;&gt;|</span>
+          </button>
+          <button id="repeat-btn" class="control-btn" title="Repeat">
+            <span id="repeat-icon" class="control-icon">RPT</span>
+          </button>
+
+          <!-- Volume Control -->
+          <div class="volume-section">
+            <span class="volume-label">VOL</span>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="80">
+            <span id="volume-display" class="volume-display">80%</span>
+          </div>
+        </div>
+
+        <!-- Track List -->
+        <div class="tracklist-section">
+          <div class="tracklist-header">
+            <span>> SELECT TRACK:</span>
+            <span class="track-count" id="track-count">0/0</span>
+          </div>
+          <div class="tracklist-container" id="tracklist">
+            <!-- Track items populated by JS -->
+          </div>
+        </div>
+
+        <!-- Streaming Links -->
+        <div class="streaming-links">
+          <span class="links-label">> STREAM:</span>
+          <a href="https://open.spotify.com/artist/4JPbRtUEIQKbsRLu72EZWp" target="_blank" class="stream-link">SPOTIFY</a>
+          <a href="https://music.apple.com/us/artist/wilford/1475058523" target="_blank" class="stream-link">APPLE</a>
+          <a href="https://wilfordthewanderer.bandcamp.com/" target="_blank" class="stream-link">BANDCAMP</a>
+        </div>
+
+        <!-- Terminal Footer -->
+        <div class="terminal-footer">
+          <span class="status-text" id="status-text">READY.</span>
+          <button class="back-button" data-back="main-menu">[ESC]</button>
+        </div>
       </div>
     </div>
   </div>
@@ -271,6 +339,8 @@
   </div>
 
   <script src="scripts/audio.js"></script>
+  <script src="scripts/visualizer.js"></script>
+  <script src="scripts/music-player.js"></script>
   <script src="scripts/dialogue.js"></script>
   <script src="scripts/menu.js"></script>
   <script src="scripts/chaos.js"></script>
