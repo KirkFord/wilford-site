@@ -579,14 +579,14 @@ body::before {
   100% { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-/* Title screen - JS controls visibility via .active class */
-#title-screen {
-  opacity: 0;
-  transition: opacity 0.5s ease-out;
+/* Title screen fade in after intro */
+#title-screen.fade-in {
+  animation: titleFadeIn 0.5s ease-out forwards;
 }
 
-#title-screen.active {
-  opacity: 1;
+@keyframes titleFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Mobile responsive intro */

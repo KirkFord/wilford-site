@@ -9,6 +9,7 @@
   let menuItems = [];
   let konamiProgress = 0;
   let introComplete = false;
+  let isTransitioning = false; // Prevent multiple transitions
   const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
 
   // Transition effects to randomly choose from
@@ -149,7 +150,7 @@
         introScreen.style.display = 'none'; // Fully remove from view
       }
       if (titleScreen) {
-        titleScreen.classList.add('active');
+        titleScreen.classList.add('active', 'fade-in');
       }
       currentScreen = 'title-screen';
     }, 500);
@@ -158,9 +159,10 @@
   // Title Screen
   function setupTitleScreen() {
     const titleScreen = document.getElementById('title-screen');
+    if (!titleScreen) return;
 
     const startGame = () => {
-      if (currentScreen === 'title-screen') {
+      if (currentScreen === 'title-screen' && !isTransitioning) {
         playSound('start');
         transitionToScreen('main-menu');
       }
@@ -169,9 +171,9 @@
     // Click anywhere to start
     titleScreen.addEventListener('click', startGame);
 
-    // Any key to start
-    document.addEventListener('keydown', function titleKeyHandler(e) {
-      if (currentScreen === 'title-screen') {
+    // Any key to start (but not during intro)
+    document.addEventListener('keydown', (e) => {
+      if (currentScreen === 'title-screen' && !isTransitioning && introComplete) {
         startGame();
       }
     });
@@ -275,10 +277,16 @@
 
   // Screen Transitions with random effects
   function transitionToScreen(screenId) {
+    // Prevent multiple transitions
+    if (isTransitioning) return;
+    if (currentScreen === screenId) return;
+
     const currentScreenEl = document.getElementById(currentScreen);
     const nextScreenEl = document.getElementById(screenId);
 
-    if (!nextScreenEl) return;
+    if (!nextScreenEl || !currentScreenEl) return;
+
+    isTransitioning = true;
 
     // Pick a random transition effect
     const effect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
@@ -291,13 +299,19 @@
     if (effect) currentScreenEl.classList.add(effect);
 
     setTimeout(() => {
+      // Remove old screen
       currentScreenEl.classList.remove('active', 'screen-exit', ...transitionEffects);
+
+      // Show new screen
       nextScreenEl.classList.add('active', 'screen-enter');
       if (effect) nextScreenEl.classList.add(effect);
+
+      // Update state
       currentScreen = screenId;
 
       setTimeout(() => {
         nextScreenEl.classList.remove('screen-enter', ...transitionEffects);
+        isTransitioning = false; // Allow new transitions
       }, 500);
     }, 300);
   }
