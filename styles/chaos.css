@@ -1,144 +1,30 @@
 /* ===========================================
-   CHAOS.CSS - GeoCities / Hypnospace Outlaw Vibes
-   Keep this chaos contained to edges!
+   CHAOS.CSS - GeoCities / Hypnospace Vibes
+   Clean version - no overlap with main content
    =========================================== */
 
-/* ===== FLOATING GIFS ===== */
-.chaos-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
+/* ===== CUSTOM PIXEL CURSORS ===== */
+/* PC-98 style cursors */
+body.chaos-enabled {
+  cursor: url('/assets/cursors/arrow.svg') 0 0, auto;
 }
 
-.floating-gif {
-  position: absolute;
-  pointer-events: auto;
-  cursor: pointer;
-  image-rendering: pixelated;
-  transition: transform 0.1s;
+body.chaos-enabled a,
+body.chaos-enabled button,
+body.chaos-enabled .menu-item,
+body.chaos-enabled [onclick] {
+  cursor: url('/assets/cursors/pointer.svg') 5 0, pointer;
 }
 
-.floating-gif:hover {
-  transform: scale(1.2);
-}
-
-/* Corner positions - don't block center content */
-.corner-tl { top: 10px; left: 10px; }
-.corner-tr { top: 10px; right: 10px; }
-.corner-bl { bottom: 80px; left: 10px; }
-.corner-br { bottom: 80px; right: 10px; }
-
-/* Edge positions */
-.edge-left { left: 10px; top: 50%; transform: translateY(-50%); }
-.edge-right { right: 10px; top: 50%; transform: translateY(-50%); }
-
-/* ===== CSS-BASED RETRO ANIMATIONS ===== */
-
-/* Spinning Skull */
-.spin-skull {
-  width: 48px;
-  height: 48px;
-  animation: spin3d 3s linear infinite;
-  font-size: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@keyframes spin3d {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
-}
-
-/* Fire animation */
-.fire-gif {
-  width: 32px;
-  height: 48px;
-  background: linear-gradient(
-    to top,
-    #ff0000 0%,
-    #ff6600 30%,
-    #ffff00 60%,
-    transparent 100%
-  );
-  animation: flicker 0.15s infinite alternate;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-}
-
-@keyframes flicker {
-  0% { transform: scaleY(1) scaleX(1); opacity: 1; }
-  50% { transform: scaleY(1.1) scaleX(0.9); opacity: 0.8; }
-  100% { transform: scaleY(0.95) scaleX(1.05); opacity: 1; }
-}
-
-/* Sparkle star */
-.sparkle {
-  width: 24px;
-  height: 24px;
-  animation: sparkle 1s ease-in-out infinite;
-}
-
-.sparkle::before {
-  content: "✦";
-  font-size: 24px;
-  color: #ffff00;
-  text-shadow: 0 0 10px #ffff00;
-}
-
-@keyframes sparkle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(0.7); }
-}
-
-/* Dancing character (CSS art) */
-.dancer {
-  width: 32px;
-  height: 48px;
-  animation: dance 0.5s steps(2) infinite;
-}
-
-@keyframes dance {
-  0%, 100% { transform: translateY(0) rotate(-5deg); }
-  50% { transform: translateY(-5px) rotate(5deg); }
-}
-
-/* Under Construction sign */
-.under-construction {
-  background: repeating-linear-gradient(
-    45deg,
-    #ffff00,
-    #ffff00 10px,
-    #000000 10px,
-    #000000 20px
-  );
-  color: #000;
-  padding: 4px 12px;
-  font-family: "MS Sans Serif", Arial, sans-serif;
-  font-size: 10px;
-  font-weight: bold;
-  border: 2px solid #000;
-  animation: constructBlink 1s steps(1) infinite;
-}
-
-@keyframes constructBlink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0.7; }
-}
-
-/* ===== MARQUEE ===== */
+/* ===== MARQUEE - Bottom of screen ===== */
 .chaos-marquee-container {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 40px;
-  background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1a 100%);
-  border-top: 2px solid #4a4a6a;
+  height: 28px;
+  background: #0a0a14;
+  border-top: 2px solid #3a3a5a;
   z-index: 1000;
   overflow: hidden;
   display: flex;
@@ -147,21 +33,20 @@
 
 .chaos-marquee {
   display: flex;
-  animation: marquee 20s linear infinite;
+  animation: marquee 30s linear infinite;
   white-space: nowrap;
 }
 
 .chaos-marquee span {
-  padding: 0 50px;
-  font-family: "MS Sans Serif", Arial, sans-serif;
-  font-size: 14px;
-  color: #00ffff;
-  text-shadow: 0 0 5px #00ffff;
+  padding: 0 30px;
+  font-family: "MS Gothic", monospace;
+  font-size: 12px;
+  color: #8888aa;
 }
 
 .chaos-marquee .separator {
-  color: #ff00ff;
-  padding: 0 20px;
+  color: #4a4a6a;
+  padding: 0 15px;
 }
 
 @keyframes marquee {
@@ -169,10 +54,10 @@
   100% { transform: translateX(-50%); }
 }
 
-/* ===== HIT COUNTER ===== */
+/* ===== HIT COUNTER - Above marquee, centered ===== */
 .hit-counter-container {
   position: fixed;
-  bottom: 50px;
+  bottom: 36px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 999;
@@ -181,156 +66,150 @@
 }
 
 .hit-counter-label {
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  font-size: 10px;
-  color: #ffff00;
-  text-shadow: 1px 1px #000;
+  font-family: "MS Gothic", monospace;
+  font-size: 9px;
+  color: #6a6a8a;
   margin-bottom: 2px;
+  letter-spacing: 1px;
 }
 
 .hit-counter {
   display: inline-flex;
   background: #000;
-  border: 2px inset #808080;
-  padding: 2px;
+  border: 1px solid #2a2a4a;
+  padding: 1px;
 }
 
 .hit-digit {
-  width: 16px;
-  height: 24px;
+  width: 12px;
+  height: 18px;
   background: #001100;
-  color: #00ff00;
+  color: #00cc00;
   font-family: "Courier New", monospace;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #003300;
-  text-shadow: 0 0 5px #00ff00;
+  border: 1px solid #002200;
 }
 
-/* ===== BLINK TAGS ===== */
-.blink-new {
-  animation: blink90s 0.8s steps(1) infinite;
-  color: #ff0000;
-  font-weight: bold;
-  font-size: 10px;
-}
-
-@keyframes blink90s {
-  0%, 49% { visibility: visible; }
-  50%, 100% { visibility: hidden; }
-}
-
-/* NEW badge */
-.new-badge {
-  display: inline-block;
-  background: #ff0000;
-  color: #ffff00;
-  font-size: 8px;
-  font-weight: bold;
-  padding: 1px 4px;
-  margin-left: 5px;
-  animation: newPulse 0.5s ease-in-out infinite alternate;
-  font-family: Arial, sans-serif;
-}
-
-@keyframes newPulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
-}
-
-/* ===== RAINBOW TEXT ===== */
-.rainbow-cycle {
-  animation: rainbow 3s linear infinite;
-}
-
-@keyframes rainbow {
-  0% { color: #ff0000; }
-  14% { color: #ff7f00; }
-  28% { color: #ffff00; }
-  42% { color: #00ff00; }
-  57% { color: #0000ff; }
-  71% { color: #4b0082; }
-  85% { color: #9400d3; }
-  100% { color: #ff0000; }
-}
-
-/* ===== BADGES SECTION ===== */
+/* ===== 88x31 BADGES - Bottom right ===== */
 .badges-container {
   position: fixed;
-  bottom: 50px;
+  bottom: 36px;
   right: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex-direction: row;
+  gap: 4px;
   z-index: 998;
   pointer-events: auto;
 }
 
-.retro-badge {
+img.retro-badge {
   width: 88px;
   height: 31px;
-  background: linear-gradient(to bottom, #c0c0c0 0%, #808080 100%);
-  border: 2px outset #ffffff;
+  image-rendering: pixelated;
+  border: none;
+  display: block;
+}
+
+/* ===== TOGGLE BUTTON ===== */
+.chaos-toggle {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 10000;
+  background: transparent;
+  border: 1px solid #3a3a5a;
+  color: #5a5a7a;
+  padding: 2px 6px;
+  font-family: "MS Gothic", monospace;
+  font-size: 10px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.chaos-toggle:hover {
+  opacity: 1;
+  color: #8a8aaa;
+  border-color: #5a5a7a;
+}
+
+/* ===== SECRET OVERLAY ===== */
+.secret-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "MS Sans Serif", Arial, sans-serif;
-  font-size: 8px;
-  color: #000080;
+}
+
+.secret-content {
   text-align: center;
-  cursor: pointer;
-  image-rendering: pixelated;
+  font-family: "MS Gothic", monospace;
+  color: #00cccc;
+  padding: 40px;
+  border: 2px solid #00cccc;
+  background: #0a0a1a;
 }
 
-.retro-badge:hover {
-  border-style: inset;
-}
-
-.retro-badge.netscape {
-  background: linear-gradient(to bottom, #006600 0%, #004400 100%);
-  color: #ffffff;
-}
-
-.retro-badge.geocities {
-  background: linear-gradient(to bottom, #ff6600 0%, #cc4400 100%);
-  color: #ffffff;
-}
-
-.retro-badge.wilford-approved {
-  background: linear-gradient(to bottom, #1a1a2e 0%, #4a4a6a 100%);
+.secret-content h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
   color: #00ffff;
-  border-color: #4a4a6a;
 }
 
-/* ===== MOUSE TRAIL ===== */
-.trail-particle {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  font-size: 16px;
-  animation: trailFade 1s ease-out forwards;
+.secret-content p {
+  margin: 10px 0;
+  font-size: 14px;
 }
 
-@keyframes trailFade {
-  0% { opacity: 1; transform: scale(1) translateY(0); }
-  100% { opacity: 0; transform: scale(0.5) translateY(-20px); }
+.secret-content .zone-hint {
+  color: #ff00ff;
+  margin-top: 20px;
 }
 
-/* ===== CUSTOM CURSORS ===== */
-body.chaos-enabled {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="18" font-size="18">👆</text></svg>') 4 0, auto;
+.secret-content button {
+  margin-top: 30px;
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid #00cccc;
+  color: #00cccc;
+  font-family: "MS Gothic", monospace;
+  cursor: pointer;
 }
 
-body.chaos-enabled a,
-body.chaos-enabled button,
-body.chaos-enabled .menu-item {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="18" font-size="18">👉</text></svg>') 4 4, pointer;
+.secret-content button:hover {
+  background: #00cccc;
+  color: #000;
 }
 
-/* ===== GLITCH EFFECT FOR HAUNTED MODE ===== */
+/* ===== BLINK / NEW BADGE ===== */
+.new-badge {
+  display: inline-block;
+  background: #cc0000;
+  color: #ffff00;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 1px 4px;
+  margin-left: 8px;
+  font-family: "MS Gothic", monospace;
+  animation: badgePulse 1s steps(2) infinite;
+}
+
+@keyframes badgePulse {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.6; }
+}
+
+/* ===== GLITCH EFFECTS ===== */
 .haunted-glitch {
   animation: hauntedGlitch 0.1s steps(2) infinite;
 }
@@ -347,95 +226,35 @@ body.chaos-enabled .menu-item {
   filter: invert(1) !important;
 }
 
-/* ===== WEBRING ===== */
-.webring-container {
-  position: fixed;
-  bottom: 50px;
-  left: 10px;
-  z-index: 998;
-  background: linear-gradient(to bottom, #000080 0%, #000040 100%);
-  border: 2px outset #4040ff;
-  padding: 5px 10px;
-  font-family: "MS Sans Serif", Arial, sans-serif;
-  font-size: 10px;
-  color: #ffffff;
-  text-align: center;
-}
-
-.webring-title {
-  color: #ffff00;
-  font-weight: bold;
-  margin-bottom: 3px;
-}
-
-.webring-nav {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.webring-nav a {
-  color: #00ffff;
-  text-decoration: none;
-}
-
-.webring-nav a:hover {
-  color: #ff00ff;
-  text-decoration: underline;
-}
-
-/* ===== RESPONSIVE - REDUCE CHAOS ON MOBILE ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .chaos-layer {
-    display: none;
-  }
-
   .badges-container {
     display: none;
   }
 
-  .webring-container {
-    display: none;
-  }
-
   .hit-counter-container {
-    bottom: 45px;
-    transform: translateX(-50%) scale(0.8);
+    bottom: 32px;
+    transform: translateX(-50%) scale(0.9);
   }
 
   .chaos-marquee-container {
-    height: 30px;
+    height: 24px;
   }
 
   .chaos-marquee span {
-    font-size: 11px;
+    font-size: 10px;
+    padding: 0 20px;
   }
 }
 
-/* ===== TOGGLE BUTTON FOR CHAOS ===== */
-.chaos-toggle {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 10000;
-  background: #1a1a2e;
-  border: 2px solid #4a4a6a;
-  color: #00ffff;
-  padding: 5px 10px;
-  font-family: "MS Sans Serif", Arial, sans-serif;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-.chaos-toggle:hover {
-  background: #2a2a4e;
-}
-
-/* When chaos is disabled */
-body.chaos-disabled .chaos-layer,
+/* ===== CHAOS DISABLED STATE ===== */
 body.chaos-disabled .chaos-marquee-container,
 body.chaos-disabled .badges-container,
-body.chaos-disabled .webring-container,
 body.chaos-disabled .hit-counter-container {
   display: none !important;
+}
+
+/* Remove the emoji cursors, keep default for disabled */
+body.chaos-disabled {
+  cursor: auto;
 }
