@@ -168,8 +168,14 @@
       }
     };
 
-    // Click anywhere to start
-    titleScreen.addEventListener('click', startGame);
+    // Click anywhere to start (except on the title itself - that's for the secret)
+    titleScreen.addEventListener('click', (e) => {
+      // Don't trigger if clicking on the main title (7-click secret)
+      if (e.target.classList.contains('main-title') || e.target.closest('.main-title')) {
+        return;
+      }
+      startGame();
+    });
 
     // Any key to start (but not during intro)
     document.addEventListener('keydown', (e) => {
