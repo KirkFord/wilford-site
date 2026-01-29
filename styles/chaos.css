@@ -1,6 +1,6 @@
 /* ===========================================
    CHAOS.CSS - GeoCities / Hypnospace Vibes
-   Clean version - no overlap with main content
+   Clean version - elements at TOP like old web
    =========================================== */
 
 /* ===== CUSTOM PIXEL CURSORS ===== */
@@ -16,15 +16,15 @@ body.chaos-enabled [onclick] {
   cursor: url('/assets/cursors/pointer.svg') 5 0, pointer;
 }
 
-/* ===== MARQUEE - Bottom of screen ===== */
+/* ===== MARQUEE - TOP of screen ===== */
 .chaos-marquee-container {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 28px;
+  height: 24px;
   background: #0a0a14;
-  border-top: 2px solid #3a3a5a;
+  border-bottom: 2px solid #3a3a5a;
   z-index: 1000;
   overflow: hidden;
   display: flex;
@@ -40,7 +40,7 @@ body.chaos-enabled [onclick] {
 .chaos-marquee span {
   padding: 0 30px;
   font-family: "MS Gothic", monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: #8888aa;
 }
 
@@ -54,14 +54,13 @@ body.chaos-enabled [onclick] {
   100% { transform: translateX(-50%); }
 }
 
-/* ===== HIT COUNTER - Above marquee, centered ===== */
+/* ===== HIT COUNTER - Below marquee, left side ===== */
 .hit-counter-container {
   position: fixed;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 32px;
+  left: 10px;
   z-index: 999;
-  text-align: center;
+  text-align: left;
   pointer-events: none;
 }
 
@@ -94,10 +93,10 @@ body.chaos-enabled [onclick] {
   border: 1px solid #002200;
 }
 
-/* ===== 88x31 BADGES - Bottom right ===== */
+/* ===== 88x31 BADGES - Top right (below toggle) ===== */
 .badges-container {
   position: fixed;
-  bottom: 36px;
+  top: 32px;
   right: 10px;
   display: flex;
   flex-direction: row;
@@ -114,11 +113,11 @@ img.retro-badge {
   display: block;
 }
 
-/* ===== TOGGLE BUTTON ===== */
+/* ===== TOGGLE BUTTON - Top right corner ===== */
 .chaos-toggle {
   position: fixed;
-  top: 8px;
-  right: 8px;
+  top: 32px;
+  right: 290px; /* To the left of badges */
   z-index: 10000;
   background: transparent;
   border: 1px solid #3a3a5a;
@@ -233,17 +232,23 @@ img.retro-badge {
   }
 
   .hit-counter-container {
-    bottom: 32px;
-    transform: translateX(-50%) scale(0.9);
+    top: 28px;
+    transform: scale(0.9);
+    transform-origin: top left;
   }
 
   .chaos-marquee-container {
-    height: 24px;
+    height: 20px;
   }
 
   .chaos-marquee span {
     font-size: 10px;
     padding: 0 20px;
+  }
+
+  .chaos-toggle {
+    top: 28px;
+    right: 10px;
   }
 }
 

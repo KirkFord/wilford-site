@@ -406,13 +406,14 @@ body {
 }
 
 .floating-back {
-  position: absolute;
-  top: 20px;
+  position: fixed;
+  top: 70px; /* Below the top bar elements */
   right: 20px;
   width: auto;
   padding: 10px 15px;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.9);
   border: 2px solid var(--pc98-mid-gray);
+  z-index: 100;
 }
 
 /* ========== CENTER PANEL LAYOUT (Listen, Secrets) ========== */
