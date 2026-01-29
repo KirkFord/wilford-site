@@ -12,8 +12,8 @@
   let isTransitioning = false; // Prevent multiple transitions
   const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
 
-  // Transition effects to randomly choose from
-  const transitionEffects = ['', 'slide-right', 'dissolve', 'wipe', 'flash', 'zoom'];
+  // Transition effects to randomly choose from (null = default fade)
+  const transitionEffects = [null, 'slide-right', 'dissolve', 'wipe', 'flash', 'zoom'];
 
   // PC-98 background images organized by mood/screen
   const pc98Backgrounds = {
@@ -300,7 +300,8 @@
 
     setTimeout(() => {
       // Remove old screen
-      currentScreenEl.classList.remove('active', 'screen-exit', ...transitionEffects);
+      currentScreenEl.classList.remove('active', 'screen-exit');
+      transitionEffects.forEach(e => e && currentScreenEl.classList.remove(e));
 
       // Show new screen
       nextScreenEl.classList.add('active', 'screen-enter');
@@ -310,7 +311,8 @@
       currentScreen = screenId;
 
       setTimeout(() => {
-        nextScreenEl.classList.remove('screen-enter', ...transitionEffects);
+        nextScreenEl.classList.remove('screen-enter');
+        transitionEffects.forEach(e => e && nextScreenEl.classList.remove(e));
         isTransitioning = false; // Allow new transitions
       }, 500);
     }, 300);
