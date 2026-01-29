@@ -243,23 +243,54 @@
 
   // ===== SECRET CLICK COUNTER =====
   let secretClicks = 0;
+  let lastSecretClickTime = 0;
+
   function initSecretClicks() {
-    document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('main-title') ||
-          e.target.classList.contains('intro-text')) {
+    // Prevent text selection on secret elements
+    document.querySelectorAll('.main-title, .intro-text').forEach(el => {
+      el.style.userSelect = 'none';
+      el.style.webkitUserSelect = 'none';
+      el.style.cursor = 'pointer';
+    });
+
+    // Use mousedown for more reliable detection
+    document.addEventListener('mousedown', (e) => {
+      const target = e.target;
+      const isSecretTarget = target.classList.contains('main-title') ||
+                             target.classList.contains('intro-text') ||
+                             target.closest('.main-title') ||
+                             target.closest('.intro-text');
+
+      if (isSecretTarget) {
+        e.preventDefault(); // Prevent text selection
+
+        // Debounce rapid clicks (must be 100ms apart)
+        const now = Date.now();
+        if (now - lastSecretClickTime < 100) return;
+        lastSecretClickTime = now;
+
         secretClicks++;
 
         // Visual feedback for each click
         showClickProgress(e.clientX, e.clientY, secretClicks);
 
         // Pulse the title
-        e.target.classList.add('secret-pulse');
-        setTimeout(() => e.target.classList.remove('secret-pulse'), 600);
+        const titleEl = target.classList.contains('main-title') ? target : target.closest('.main-title') || target;
+        titleEl.classList.add('secret-pulse');
+        setTimeout(() => titleEl.classList.remove('secret-pulse'), 600);
 
         if (secretClicks === 7) {
           unlockSecret();
           secretClicks = 0;
         }
+
+        // Reset counter after 3 seconds of no clicks
+        clearTimeout(window.secretClickTimeout);
+        window.secretClickTimeout = setTimeout(() => {
+          if (secretClicks > 0 && secretClicks < 7) {
+            secretClicks = 0;
+          }
+        }, 3000);
       }
     });
   }
@@ -340,6 +371,111 @@
     }, 200);
   }
 
+  // ===== GLOBAL CLICK FEEDBACK =====
+  function initClickFeedback() {
+    document.addEventListener('mousedown', (e) => {
+      if (document.body.classList.contains('chaos-disabled')) return;
+
+      // Visual impact
+      createClickImpact(e.clientX, e.clientY);
+    });
+  }
+
+  function createClickImpact(x, y) {
+    // Inner burst
+    const burst = document.createElement('div');
+    burst.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y}px;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, #fff 0%, #66ffff 50%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%) scale(0);
+      animation: clickBurst 0.3s ease-out forwards;
+    `;
+    document.body.appendChild(burst);
+
+    // Outer ring
+    const ring = document.createElement('div');
+    ring.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y}px;
+      width: 10px;
+      height: 10px;
+      border: 2px solid rgba(102, 255, 255, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%) scale(0);
+      animation: clickRing 0.4s ease-out forwards;
+    `;
+    document.body.appendChild(ring);
+
+    // Small particles
+    for (let i = 0; i < 6; i++) {
+      const particle = document.createElement('div');
+      const angle = (Math.PI * 2 * i) / 6;
+      const colors = ['#ff6688', '#66ffff', '#ffff66'];
+      particle.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        width: 3px;
+        height: 3px;
+        background: ${colors[i % colors.length]};
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+      `;
+      document.body.appendChild(particle);
+
+      // Animate particle outward
+      const speed = 30 + Math.random() * 20;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      let px = 0, py = 0, life = 1;
+
+      function animateParticle() {
+        px += vx * 0.1;
+        py += vy * 0.1;
+        life -= 0.05;
+        particle.style.transform = `translate(calc(-50% + ${px}px), calc(-50% + ${py}px)) scale(${life})`;
+        particle.style.opacity = life;
+        if (life > 0) {
+          requestAnimationFrame(animateParticle);
+        } else {
+          particle.remove();
+        }
+      }
+      requestAnimationFrame(animateParticle);
+    }
+
+    // Ensure animation styles exist
+    if (!document.getElementById('click-feedback-style')) {
+      const style = document.createElement('style');
+      style.id = 'click-feedback-style';
+      style.textContent = `
+        @keyframes clickBurst {
+          0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+        }
+        @keyframes clickRing {
+          0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    setTimeout(() => { burst.remove(); ring.remove(); }, 400);
+  }
+
   // ===== INIT =====
   function init() {
     if (document.readyState === 'loading') {
@@ -355,6 +491,7 @@
     initMarquee();
     initBadges();
     initMouseTrail();
+    initClickFeedback();
     initHauntedEffects();
     initSecretClicks();
 
