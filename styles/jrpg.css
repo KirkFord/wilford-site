@@ -506,6 +506,23 @@ body {
   min-width: 350px;
 }
 
+/* Listen panel with SoundCloud */
+.listen-panel {
+  min-width: 400px;
+  max-width: 500px;
+}
+
+.soundcloud-embed {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  margin: 5px;
+}
+
+.soundcloud-embed iframe {
+  display: block;
+  border-radius: 4px;
+}
+
 /* Platform Grid */
 .platform-grid {
   display: grid;
