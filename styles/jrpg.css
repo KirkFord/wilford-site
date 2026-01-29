@@ -377,6 +377,27 @@ body {
   font-size: 12px;
   border: 3px solid var(--pc98-pink);
   box-shadow: 3px 3px 0 var(--pc98-dark-red);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.name-plate-back {
+  background: transparent;
+  border: none;
+  color: var(--pc98-white);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.6;
+  width: auto;
+  border-top: none;
+}
+
+.name-plate-back:hover {
+  opacity: 1;
+  background: transparent;
 }
 
 .dialogue-box-vn {
@@ -405,31 +426,9 @@ body {
   color: var(--pc98-gold);
 }
 
-/* Floating back button - styled like JRPG menu panel */
+/* Floating back - no longer used, kept for compatibility */
 .floating-back {
-  position: fixed;
-  top: 110px; /* Below the top chaos elements */
-  right: 20px;
-  width: auto;
-  padding: 8px 14px;
-  background: linear-gradient(135deg, var(--pc98-blue) 0%, #3344aa 100%);
-  border: 3px solid var(--pc98-periwinkle);
-  box-shadow:
-    inset 2px 2px 0 var(--pc98-light-gray),
-    inset -2px -2px 0 #334488,
-    4px 4px 0 rgba(0,0,0,0.5);
-  z-index: 100;
-  font-size: 8px;
-  color: var(--pc98-cream);
-}
-
-.floating-back:hover {
-  background: linear-gradient(135deg, #5566cc 0%, #4455bb 100%);
-  transform: translate(-1px, -1px);
-  box-shadow:
-    inset 2px 2px 0 var(--pc98-light-gray),
-    inset -2px -2px 0 #334488,
-    5px 5px 0 rgba(0,0,0,0.5);
+  display: none;
 }
 
 /* ========== CENTER PANEL LAYOUT (Listen, Secrets) ========== */

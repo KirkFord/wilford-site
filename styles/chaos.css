@@ -54,19 +54,24 @@ body.chaos-enabled [onclick] {
   100% { transform: translateX(-50%); }
 }
 
-/* ===== HIT COUNTER - Below marquee, left side ===== */
+/* ===== HIT COUNTER - Bottom left corner ===== */
 .hit-counter-container {
   position: fixed;
-  top: 32px;
+  bottom: 10px;
   left: 10px;
   z-index: 999;
   text-align: left;
   pointer-events: none;
+  opacity: 0.7;
+}
+
+.hit-counter-container:hover {
+  opacity: 1;
 }
 
 .hit-counter-label {
   font-family: "MS Gothic", monospace;
-  font-size: 9px;
+  font-size: 8px;
   color: #6a6a8a;
   margin-bottom: 2px;
   letter-spacing: 1px;
@@ -80,12 +85,12 @@ body.chaos-enabled [onclick] {
 }
 
 .hit-digit {
-  width: 12px;
-  height: 18px;
+  width: 10px;
+  height: 14px;
   background: #001100;
   color: #00cc00;
   font-family: "Courier New", monospace;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -93,16 +98,21 @@ body.chaos-enabled [onclick] {
   border: 1px solid #002200;
 }
 
-/* ===== 88x31 BADGES - Left side below hit counter ===== */
+/* ===== 88x31 BADGES - Bottom right corner ===== */
 .badges-container {
   position: fixed;
-  top: 70px;
-  left: 10px;
+  bottom: 10px;
+  right: 10px;
   display: flex;
   flex-direction: row;
-  gap: 4px;
+  gap: 3px;
   z-index: 998;
   pointer-events: auto;
+  opacity: 0.7;
+}
+
+.badges-container:hover {
+  opacity: 1;
 }
 
 img.retro-badge {
@@ -113,20 +123,21 @@ img.retro-badge {
   display: block;
 }
 
-/* ===== TOGGLE BUTTON - Top right corner ===== */
+/* ===== TOGGLE BUTTON - Bottom center ===== */
 .chaos-toggle {
   position: fixed;
-  top: 32px;
-  right: 10px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 10000;
   background: transparent;
   border: 1px solid #3a3a5a;
   color: #5a5a7a;
   padding: 2px 6px;
   font-family: "MS Gothic", monospace;
-  font-size: 10px;
+  font-size: 9px;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.4;
   transition: opacity 0.2s;
 }
 
@@ -232,9 +243,10 @@ img.retro-badge {
   }
 
   .hit-counter-container {
-    top: 28px;
-    transform: scale(0.9);
-    transform-origin: top left;
+    bottom: 8px;
+    left: 8px;
+    transform: scale(0.85);
+    transform-origin: bottom left;
   }
 
   .chaos-marquee-container {
@@ -247,9 +259,8 @@ img.retro-badge {
   }
 
   .chaos-toggle {
-    top: 28px;
-    right: 10px;
-    font-size: 9px;
+    bottom: 8px;
+    font-size: 8px;
   }
 }
 

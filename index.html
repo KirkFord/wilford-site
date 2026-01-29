@@ -144,14 +144,16 @@
   <!-- Bio Screen - Classic VN dialogue at bottom -->
   <div id="bio-screen" class="screen sub-screen">
     <div class="vn-dialogue-layout">
-      <!-- Character name plate -->
-      <div class="name-plate">WILFORD.</div>
+      <!-- Character name plate with back option -->
+      <div class="name-plate">
+        <span class="name-text">WILFORD.</span>
+        <button class="back-button name-plate-back" data-back="main-menu">[ESC]</button>
+      </div>
       <!-- Dialogue box at bottom -->
       <div class="dialogue-box-vn" id="bio-dialogue">
         <p class="dialogue-text" id="bio-text"></p>
         <span class="dialogue-next blink">&#9660; CLICK</span>
       </div>
-      <button class="back-button floating-back" data-back="main-menu">[ESC] Back</button>
     </div>
   </div>
 
