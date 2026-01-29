@@ -60,7 +60,7 @@
       'Fantasy/Angel Night 216.png',
       'Fantasy/Super D.P.S 29.png',
       'Fantasy/Waver 124.png',
-      'Monochromatic/Birthday 125.png',
+      'Monochromatic/Angel Halo 170.png',
       'Contemporary Interiors/Yu-No 400.png'
     ],
     'contact-screen': [
@@ -72,7 +72,7 @@
     ],
     'secrets-screen': [
       'Monochromatic/Angel Halo 165.png',
-      'Monochromatic/Birthday 125.png',
+      'Monochromatic/Angel Halo 172.png',
       'Sci-Fi/Red 127.png',
       'Fantasy/Dual Soul 067.png',
       'Sci-Fi/Reira Slave Doll 094.png'

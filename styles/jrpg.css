@@ -53,6 +53,8 @@ body {
   height: 100%;
   display: none;
   z-index: 1;
+  background-size: cover;
+  background-position: center;
 }
 
 .screen.active {
