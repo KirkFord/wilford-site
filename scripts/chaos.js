@@ -248,6 +248,14 @@
       if (e.target.classList.contains('main-title') ||
           e.target.classList.contains('intro-text')) {
         secretClicks++;
+
+        // Visual feedback for each click
+        showClickProgress(e.clientX, e.clientY, secretClicks);
+
+        // Pulse the title
+        e.target.classList.add('secret-pulse');
+        setTimeout(() => e.target.classList.remove('secret-pulse'), 600);
+
         if (secretClicks === 7) {
           unlockSecret();
           secretClicks = 0;
@@ -256,18 +264,80 @@
     });
   }
 
-  function unlockSecret() {
-    const overlay = document.createElement('div');
-    overlay.className = 'secret-overlay';
-    overlay.innerHTML = `
-      <div class="secret-content">
-        <h1>SECRET UNLOCKED</h1>
-        <p>You clicked the title 7 times!</p>
-        <p class="zone-hint">The Zone awaits... /zone.html</p>
-        <button onclick="this.parentElement.parentElement.remove()">[ OK ]</button>
-      </div>
+  function showClickProgress(x, y, count) {
+    // Ripple effect
+    const ripple = document.createElement('div');
+    ripple.className = 'click-ripple';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.style.borderColor = count >= 5 ? '#ff6688' : count >= 3 ? '#ffff66' : '#66ffff';
+    document.body.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+
+    // Progress indicator
+    const indicator = document.createElement('div');
+    indicator.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y - 30}px;
+      transform: translateX(-50%);
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      color: ${count >= 5 ? '#ff6688' : '#66ffff'};
+      pointer-events: none;
+      z-index: 99999;
+      text-shadow: 2px 2px 0 #000;
+      animation: floatUp 0.8s ease-out forwards;
     `;
-    document.body.appendChild(overlay);
+    indicator.textContent = count >= 5 ? `${count}/7 !!!` : `${count}/7`;
+    document.body.appendChild(indicator);
+    setTimeout(() => indicator.remove(), 800);
+
+    // Add float up animation if not exists
+    if (!document.getElementById('float-up-style')) {
+      const style = document.createElement('style');
+      style.id = 'float-up-style';
+      style.textContent = `
+        @keyframes floatUp {
+          0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          100% { opacity: 0; transform: translateX(-50%) translateY(-40px); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  function unlockSecret() {
+    // Screen shake
+    document.body.classList.add('screen-shake');
+    setTimeout(() => document.body.classList.remove('screen-shake'), 500);
+
+    // Flash
+    const flash = document.createElement('div');
+    flash.className = 'konami-flash';
+    flash.style.background = '#ff00ff';
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 300);
+
+    // Particles
+    if (window.spawnCelebrationParticles) {
+      window.spawnCelebrationParticles(window.innerWidth / 2, window.innerHeight / 2, 30);
+    }
+
+    // Delayed overlay for drama
+    setTimeout(() => {
+      const overlay = document.createElement('div');
+      overlay.className = 'secret-overlay';
+      overlay.innerHTML = `
+        <div class="secret-content konami-entrance">
+          <h1 class="text-glitch-reveal">SECRET UNLOCKED</h1>
+          <p style="animation: textGlitchReveal 0.5s 0.2s backwards;">You clicked the title 7 times!</p>
+          <p class="zone-hint" style="animation: textGlitchReveal 0.5s 0.4s backwards;">The Zone awaits... /zone.html</p>
+          <button onclick="this.parentElement.parentElement.remove()" style="animation: textGlitchReveal 0.5s 0.6s backwards;">[ OK ]</button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }, 200);
   }
 
   // ===== INIT =====

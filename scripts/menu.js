@@ -400,11 +400,75 @@
 
   function activateKonamiEasterEgg() {
     playSound('secret');
-    const overlay = document.getElementById('konami-overlay');
-    if (overlay) {
-      overlay.classList.remove('hidden');
+
+    // Screen shake
+    document.body.classList.add('screen-shake');
+    setTimeout(() => document.body.classList.remove('screen-shake'), 500);
+
+    // Flash effect
+    const flash = document.createElement('div');
+    flash.className = 'konami-flash';
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 300);
+
+    // Particle explosion from center
+    spawnCelebrationParticles(window.innerWidth / 2, window.innerHeight / 2, 50);
+
+    // Show overlay with delay for dramatic effect
+    setTimeout(() => {
+      const overlay = document.getElementById('konami-overlay');
+      if (overlay) {
+        overlay.classList.remove('hidden');
+        overlay.classList.add('konami-entrance');
+      }
+    }, 300);
+  }
+
+  // Celebration particles
+  function spawnCelebrationParticles(x, y, count) {
+    const colors = ['#ff6688', '#66ffff', '#ffff66', '#ff66ff', '#66ff66', '#ffbb66'];
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'celebration-particle';
+      particle.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        width: 8px;
+        height: 8px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        pointer-events: none;
+        z-index: 100001;
+        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+      `;
+      document.body.appendChild(particle);
+
+      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
+      const velocity = 8 + Math.random() * 8;
+      const vx = Math.cos(angle) * velocity;
+      const vy = Math.sin(angle) * velocity;
+      let px = x, py = y, life = 1;
+
+      function animateParticle() {
+        px += vx;
+        py += vy + (1 - life) * 5; // gravity
+        life -= 0.02;
+        particle.style.left = px + 'px';
+        particle.style.top = py + 'px';
+        particle.style.opacity = life;
+        particle.style.transform = `scale(${life}) rotate(${(1-life) * 360}deg)`;
+        if (life > 0) {
+          requestAnimationFrame(animateParticle);
+        } else {
+          particle.remove();
+        }
+      }
+      requestAnimationFrame(animateParticle);
     }
   }
+
+  // Expose for other scripts
+  window.spawnCelebrationParticles = spawnCelebrationParticles;
 
   // Sound placeholder functions (connect to audio.js)
   function playSound(type) {
