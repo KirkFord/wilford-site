@@ -7,37 +7,97 @@
   'use strict';
 
   // ========== TRACK DATA ==========
-  // Update this array with your actual tracks
+  // CRASH TEST KAWAII TRASHCORE!!! (2024)
   const TRACK_DATA = [
     {
       id: 'track-1',
-      title: 'Sample Track 1',
+      title: 'COMMANDO!',
       artist: 'WILFORD.',
       album: 'CRASH TEST KAWAII TRASHCORE!!!',
       year: 2024,
-      duration: 180,
-      audioUrl: '/assets/audio/tracks/track1.mp3',
-      artworkUrl: '/assets/album-art/ctkwtc.png'
+      duration: 141,
+      audioUrl: '/assets/audio/tracks/commando.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
     },
     {
       id: 'track-2',
-      title: 'Sample Track 2',
+      title: 'COUNTDOWN!',
+      artist: 'WILFORD.',
+      album: 'CRASH TEST KAWAII TRASHCORE!!!',
+      year: 2024,
+      duration: 152,
+      audioUrl: '/assets/audio/tracks/countdown.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
+    },
+    {
+      id: 'track-3',
+      title: 'FANFARE!',
+      artist: 'WILFORD.',
+      album: 'CRASH TEST KAWAII TRASHCORE!!!',
+      year: 2024,
+      duration: 164,
+      audioUrl: '/assets/audio/tracks/fanfare.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
+    },
+    {
+      id: 'track-4',
+      title: "IT'S A PROCESS!",
+      artist: 'WILFORD.',
+      album: 'CRASH TEST KAWAII TRASHCORE!!!',
+      year: 2024,
+      duration: 137,
+      audioUrl: '/assets/audio/tracks/its-a-process.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
+    },
+    {
+      id: 'track-5',
+      title: 'LIGHTDARK!',
+      artist: 'WILFORD.',
+      album: 'CRASH TEST KAWAII TRASHCORE!!!',
+      year: 2024,
+      duration: 173,
+      audioUrl: '/assets/audio/tracks/lightdark.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
+    },
+    {
+      id: 'track-6',
+      title: 'PHASE!',
+      artist: 'WILFORD.',
+      album: 'CRASH TEST KAWAII TRASHCORE!!!',
+      year: 2024,
+      duration: 235,
+      audioUrl: '/assets/audio/tracks/phase.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
+    },
+    {
+      id: 'track-7',
+      title: 'POSTHASTE!',
+      artist: 'WILFORD.',
+      album: 'CRASH TEST KAWAII TRASHCORE!!!',
+      year: 2024,
+      duration: 152,
+      audioUrl: '/assets/audio/tracks/posthaste.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
+    },
+    {
+      id: 'track-8',
+      title: 'THEME OF LOVE!',
       artist: 'WILFORD.',
       album: 'CRASH TEST KAWAII TRASHCORE!!!',
       year: 2024,
       duration: 210,
-      audioUrl: '/assets/audio/tracks/track2.mp3',
-      artworkUrl: '/assets/album-art/ctkwtc.png'
+      audioUrl: '/assets/audio/tracks/theme-of-love.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
     },
     {
-      id: 'track-3',
-      title: 'Sample Track 3',
+      id: 'track-9',
+      title: 'VARMINT!',
       artist: 'WILFORD.',
-      album: 'Without Form, Frame and Focus',
-      year: 2022,
-      duration: 195,
-      audioUrl: '/assets/audio/tracks/track3.mp3',
-      artworkUrl: '/assets/album-art/wfff.png'
+      album: 'CRASH TEST KAWAII TRASHCORE!!!',
+      year: 2024,
+      duration: 126,
+      audioUrl: '/assets/audio/tracks/varmint.ogg',
+      artworkUrl: '/assets/album-art/ctkwtc-web.jpg'
     }
   ];
 
