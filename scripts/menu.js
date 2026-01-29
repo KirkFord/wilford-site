@@ -137,16 +137,22 @@
     const introScreen = document.getElementById('intro-screen');
     const titleScreen = document.getElementById('title-screen');
 
-    // After a brief delay, switch to title screen
+    // Start fade out animation
+    if (introScreen) {
+      introScreen.classList.add('fading');
+    }
+
+    // After fade out, switch to title screen
     setTimeout(() => {
       if (introScreen) {
         introScreen.classList.remove('active');
+        introScreen.style.display = 'none'; // Fully remove from view
       }
       if (titleScreen) {
         titleScreen.classList.add('active');
       }
       currentScreen = 'title-screen';
-    }, 400);
+    }, 500);
   }
 
   // Title Screen

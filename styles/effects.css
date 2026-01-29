@@ -452,16 +452,21 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: introFadeOut 0.8s ease-in 4s forwards;
 }
 
 #intro-screen.active {
   z-index: 100;
 }
 
+/* Fade out when transitioning (controlled by JS) */
+#intro-screen.fading {
+  animation: introFadeOut 0.5s ease-in forwards;
+}
+
 .intro-container {
   position: relative;
   text-align: center;
+  overflow: hidden; /* Hide the shine bar before it animates */
 }
 
 .intro-logo {
@@ -523,7 +528,7 @@ body::before {
 .intro-shine {
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 60px;
   height: 100%;
   background: linear-gradient(
@@ -534,13 +539,21 @@ body::before {
     rgba(255,255,255,0.4),
     transparent
   );
+  opacity: 0;
+  transform: translateX(-100px);
   animation: shineSwipe 0.6s ease-in-out 2.2s forwards;
   pointer-events: none;
 }
 
 @keyframes shineSwipe {
-  0% { left: -60px; }
-  100% { left: calc(100% + 60px); }
+  0% {
+    opacity: 1;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(calc(100% + 500px));
+  }
 }
 
 /* "presents" text */
@@ -566,24 +579,14 @@ body::before {
   100% { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-/* After intro completes, show title screen */
+/* Title screen - JS controls visibility via .active class */
 #title-screen {
-  animation: titleFadeIn 0.8s ease-out 4s forwards;
   opacity: 0;
+  transition: opacity 0.5s ease-out;
 }
 
-@keyframes titleFadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* Skip intro on click */
-#intro-screen.skipped {
-  animation: introFadeOut 0.3s ease-in forwards !important;
-}
-
-#intro-screen.skipped ~ #title-screen {
-  animation: titleFadeIn 0.3s ease-out 0.3s forwards !important;
+#title-screen.active {
+  opacity: 1;
 }
 
 /* Mobile responsive intro */
