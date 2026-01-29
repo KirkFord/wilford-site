@@ -9,7 +9,8 @@
 
   // ===== CONFIGURATION =====
   const CHAOS_CONFIG = {
-    mouseTrail: false, // Disabled for cleaner look
+    mouseTrail: true,
+    trailParticles: 12,
     hauntedChance: 0.01 // 1% chance per page load
   };
 
@@ -157,6 +158,89 @@
     document.body.appendChild(toggle);
   }
 
+  // ===== MOUSE TRAIL =====
+  function initMouseTrail() {
+    if (!CHAOS_CONFIG.mouseTrail) return;
+
+    const colors = ['#ff6688', '#66ffff', '#ffff66', '#ff66ff', '#66ff66', '#6688ff'];
+    const particles = [];
+    let mouseX = 0;
+    let mouseY = 0;
+
+    // Create particle pool
+    for (let i = 0; i < CHAOS_CONFIG.trailParticles; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'trail-particle';
+      particle.style.cssText = `
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        background: ${colors[i % colors.length]};
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99999;
+        opacity: 0;
+        transition: opacity 0.1s;
+      `;
+      document.body.appendChild(particle);
+      particles.push({
+        el: particle,
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        life: 0
+      });
+    }
+
+    let particleIndex = 0;
+    let lastSpawn = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Spawn a new particle every 50ms
+      const now = Date.now();
+      if (now - lastSpawn > 50 && !document.body.classList.contains('chaos-disabled')) {
+        const p = particles[particleIndex];
+        p.x = mouseX;
+        p.y = mouseY;
+        p.vx = (Math.random() - 0.5) * 2;
+        p.vy = Math.random() * 2 + 1; // Fall downward
+        p.life = 1;
+        p.el.style.opacity = '1';
+        p.el.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        particleIndex = (particleIndex + 1) % particles.length;
+        lastSpawn = now;
+      }
+    });
+
+    // Animate particles
+    function animateParticles() {
+      particles.forEach(p => {
+        if (p.life > 0) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.1; // Gravity
+          p.life -= 0.02;
+
+          p.el.style.left = p.x + 'px';
+          p.el.style.top = p.y + 'px';
+          p.el.style.opacity = p.life;
+          p.el.style.transform = `scale(${p.life})`;
+
+          if (p.life <= 0) {
+            p.el.style.opacity = '0';
+          }
+        }
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  }
+
   // ===== SECRET CLICK COUNTER =====
   let secretClicks = 0;
   function initSecretClicks() {
@@ -200,6 +284,7 @@
     initHitCounter();
     initMarquee();
     initBadges();
+    initMouseTrail();
     initHauntedEffects();
     initSecretClicks();
 
