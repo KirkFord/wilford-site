@@ -4,10 +4,11 @@
   'use strict';
 
   // State
-  let currentScreen = 'title-screen';
+  let currentScreen = 'intro-screen';
   let currentMenuIndex = 0;
   let menuItems = [];
   let konamiProgress = 0;
+  let introComplete = false;
   const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // Up Up Down Down Left Right Left Right B A
 
   // Initialize on DOM load
@@ -18,6 +19,7 @@
     menuItems = document.querySelectorAll('#main-menu-list .menu-item');
 
     // Setup event listeners
+    setupIntroScreen();
     setupTitleScreen();
     setupMenuNavigation();
     setupBackButtons();
@@ -25,6 +27,59 @@
 
     // Focus management
     document.body.focus();
+  }
+
+  // Intro Screen (Capcom/Konami style boot logo)
+  function setupIntroScreen() {
+    const introScreen = document.getElementById('intro-screen');
+    const titleScreen = document.getElementById('title-screen');
+
+    if (!introScreen) {
+      currentScreen = 'title-screen';
+      return;
+    }
+
+    // Auto transition after intro animation (4 seconds)
+    setTimeout(() => {
+      if (!introComplete) {
+        completeIntro();
+      }
+    }, 4000);
+
+    // Click or keypress to skip intro
+    const skipIntro = (e) => {
+      if (currentScreen === 'intro-screen' && !introComplete) {
+        e.preventDefault();
+        introScreen.classList.add('skipped');
+        completeIntro();
+      }
+    };
+
+    introScreen.addEventListener('click', skipIntro);
+    document.addEventListener('keydown', function introKeyHandler(e) {
+      if (currentScreen === 'intro-screen' && !introComplete) {
+        skipIntro(e);
+      }
+    }, { once: false });
+  }
+
+  function completeIntro() {
+    if (introComplete) return;
+    introComplete = true;
+
+    const introScreen = document.getElementById('intro-screen');
+    const titleScreen = document.getElementById('title-screen');
+
+    // After a brief delay, switch to title screen
+    setTimeout(() => {
+      if (introScreen) {
+        introScreen.classList.remove('active');
+      }
+      if (titleScreen) {
+        titleScreen.classList.add('active');
+      }
+      currentScreen = 'title-screen';
+    }, 400);
   }
 
   // Title Screen
