@@ -42,17 +42,13 @@ body::before {
   );
 }
 
-/* Screen flicker effect */
-@keyframes screenFlicker {
+/* Screen flicker effect - disabled for cleaner experience */
+/* @keyframes screenFlicker {
   0%, 100% { opacity: 1; }
   97% { opacity: 1; }
   98% { opacity: 0.95; }
   99% { opacity: 1; }
-}
-
-.screen {
-  animation: screenFlicker 4s infinite;
-}
+} */
 
 /* Glitch effect for secret screen */
 .glitch-container {
